@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./netshield_banner.png" alt="NetShield AI NIDS Banner" width="100%" />
+</p>
+
 <div align="center">
 
 # 🛡️ NetShield: AI-Powered Network Intrusion Detection System
