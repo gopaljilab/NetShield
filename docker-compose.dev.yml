@@ -1,0 +1,43 @@
+# ==============================================================================
+# NetShield: Development Docker Compose with Hot-Reloading
+# Usage: docker compose -f docker-compose.dev.yml up
+# ==============================================================================
+
+services:
+  backend-dev:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: netshield-backend-dev
+    command: ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    volumes:
+      - ./backend:/app/backend
+      - ./ml:/app/ml
+      - ./research/reports:/app/research/reports
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - NETSHIELD_DEFAULT_MODEL=xgboost
+    networks:
+      - netshield-dev-network
+
+  frontend-dev:
+    image: node:20-alpine
+    container_name: netshield-frontend-dev
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "3001"]
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend-dev
+    networks:
+      - netshield-dev-network
+
+networks:
+  netshield-dev-network:
+    name: netshield-dev-network
+    driver: bridge

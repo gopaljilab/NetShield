@@ -1,0 +1,6 @@
+Model,Audited_Accuracy,Audited_Precision,Audited_Recall,Audited_F1,Audited_FPR,Audited_FNR,Audited_ROC_AUC,Audited_TP,Audited_TN,Audited_FP,Audited_FN
+Logistic Regression,87.77,97.83,83.89,90.32,3.97,16.11,97.79,100114,53777,2223,19227
+Decision Tree,89.17,98.73,85.19,91.46,2.34,14.81,96.95,101669,54687,1313,17672
+Random Forest,90.21,98.8,86.67,92.34,2.25,13.33,98.69,103433,54739,1261,15908
+Linear Svc,87.51,97.79,83.54,90.1,4.03,16.46,97.76,99701,53742,2258,19640
+Xgboost,90.0,98.87,86.29,92.15,2.1,13.71,98.63,102974,54825,1175,16367

@@ -1,0 +1,18 @@
+# NetShield Phase 3 Backend Dependencies
+# Defensive AI-Powered Network Intrusion Detection System REST API
+
+# Web Framework & Server
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+pydantic>=2.6.0
+
+# Machine Learning & Data Processing
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+joblib>=1.3.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Testing & Client Tools
+pytest>=8.0.0
+httpx>=0.27.0

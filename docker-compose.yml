@@ -1,0 +1,51 @@
+# ==============================================================================
+# NetShield: Production Multi-Container Orchestration (Docker Compose)
+# Services:
+#   1. backend: FastAPI REST microservice + ML model runtime (Port 8000)
+#   2. frontend: React 18 SOC Dashboard + Nginx Reverse Proxy (Port 3001)
+# ==============================================================================
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: netshield-backend
+    image: netshield-backend:latest
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - NETSHIELD_DEFAULT_MODEL=xgboost
+      - NETSHIELD_MAX_BATCH_SIZE=5000
+      - NETSHIELD_MODELS_DIR=/app/ml/saved_models
+      - NETSHIELD_METRICS_FILE=/app/research/reports/model_comparison.csv
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - netshield-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: netshield-frontend
+    image: netshield-frontend:latest
+    restart: unless-stopped
+    ports:
+      - "3001:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - netshield-network
+
+networks:
+  netshield-network:
+    name: netshield-network
+    driver: bridge
