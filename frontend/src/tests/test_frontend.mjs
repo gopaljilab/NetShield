@@ -4,6 +4,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { execSync } from 'node:child_process';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const frontendDir = path.resolve(__dirname, '../../');
@@ -11,6 +13,9 @@ const backendDir = path.resolve(frontendDir, '../backend');
 
 test('1. Production build bundle exists and contains compiled assets', () => {
   const distDir = path.join(frontendDir, 'dist');
+  if (!fs.existsSync(distDir) || !fs.existsSync(path.join(distDir, 'index.html'))) {
+    execSync('npm run build', { cwd: frontendDir, stdio: 'pipe' });
+  }
   assert.ok(fs.existsSync(distDir), 'frontend/dist directory must exist');
 
   const indexHtml = path.join(distDir, 'index.html');
